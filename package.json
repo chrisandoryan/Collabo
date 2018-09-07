@@ -1,0 +1,20 @@
+{
+  "name": "collabo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "realtime"
+  ],
+  "author": "AO18-1",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "humaninput": "^1.1.15",
+    "socket.io": "^2.1.1"
+  }
+}

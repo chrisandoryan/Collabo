@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project Collabo .0001</title>
+    <link rel="stylesheet" href="static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/assets/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+  	<script src="static/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="static/assets/js/bootstrap.min.js"></script>
+    <script src="static/assets/js/humaninput.js"></script>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+  <a class="navbar-brand" href="#">Collabo .0001</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Server
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Create Host</a>
+          <a class="dropdown-item" href="#">Drop Connection</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Client
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Connect to Host</a>
+          <a class="dropdown-item" href="#">Unlink Connection</a>
+        </div>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#scanHost" onclick="scanNetworkForHosts()">Find Active Host </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-9">
+				  <div class="form-group">
+				    <textarea class="form-control" id="realtimeFormControl" rows="23"></textarea>
+		  		</div>
+      </div>
+      
+			<div class="col-md-3" id="console-log">
+			</div>
+		</div>
+	</div>
+</body>
+<script src="static/engine.js"></script>
+</html>
