@@ -23,6 +23,7 @@ server.listen(port, '0.0.0.0', function() {
 });
 
 var users = {}
+var text = ""
 
 // Add the WebSocket handlers
 io.sockets.on('connection', function(socket) {
@@ -31,19 +32,16 @@ io.sockets.on('connection', function(socket) {
         caretPosition: 0
     };
 
+    socket.emit('sync', text);
+
     socket.on('getIP', function() {
         console.log('sending ip address to client');
         io.sockets.emit('ip', users[socket.id].ip);
     });
 
     socket.on('updateInput', function(data) { //update both caret position and textarea content
-        users[socket.id].caretPosition = data.caretPosition;
-        let newData = {
-            caretPosition: data.caretPosition,
-            keyPressed: String.fromCharCode(data.keyPressed)
-        }
-        console.log(newData);
-        socket.broadcast.emit('update', newData);
+        text = data;
+        socket.broadcast.emit('update', data);
     });
     
     socket.on('updateCaret', function(data) { //update only the caret position

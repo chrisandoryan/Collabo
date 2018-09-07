@@ -2,25 +2,16 @@
 
 var socket = io();
 
-var HI = new HumanInput(window);
-HI.filter = function(e) { return true };
-
-HI.on('keyup', captureTextAreaInput);
-
-function captureTextAreaInput(event, key, code) {
-    var data = {
-        caretPosition: event.target.selectionStart,
-        keyPressed: ""
-    }
-    data.keyPressed = key.length == 1 ? key.charCodeAt(0) : event.which;
-    HI.log.info(data.keyPressed);
-    socket.emit('updateInput', data);
-}
-
 socket.on('connect', function() {
     getRemoteIP(function(ip) {
         writeDOMLog(`a client is connected from ${ip}`, 'notify');
+        app.getMessage();
     });
+});
+
+socket.on('sync', function(text) {
+    console.log(text);
+    app.message = text;
 });
 
 function writeDOMLog(data, mode) {
@@ -84,41 +75,21 @@ $('#realtimeFormControl').click(function(event) {
     socket.emit('updateCaret', data);
 });
 
-// function setCaretPosition(elemId, caretPos) {
-//     var elem = document.getElementById(elemId);
-
-//     if(elem != null) {
-//         if(elem.createTextRange) {
-//             var range = elem.createTextRange();
-//             range.move('character', caretPos);
-//             range.select();
-//         }
-//         else {
-//             if(elem.selectionStart) {
-//                 elem.focus();
-//                 elem.setSelectionRange(caretPos, caretPos);
-//             }
-//             else
-//                 elem.focus();
-//         }
-//     }
-// }
-
 socket.on('update', function(data) {
-    var caretPosition = data.caretPosition;
-    var textArea = $('#realtimeFormControl').val();
-    var newText = data.keyPressed;
+    $('#realtimeFormControl').val(data);
+});
 
-    if (newText == "\u0008")
-    {
-        $('#realtimeFormControl').val(
-            textArea.slice(0, caretPosition - 1)
-        );
-    }
-    else
-    {
-        $('#realtimeFormControl').val(
-            textArea.substring(0, caretPosition) + newText + textArea.substring(caretPosition)
-        );
+let app = new Vue({
+    el: '#app',
+    data: {
+        message: ''
+    },
+    methods : {
+        sendMessage: function(e) {
+            socket.emit('updateInput', this.message);
+        },
+        getMessage: function() {
+            $('#realtimeFormControl').val(this.message);
+        }
     }
 });
