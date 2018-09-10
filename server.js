@@ -9,6 +9,9 @@ var io = socketIO(server);
 
 var port = 9999;
 
+var users = {}
+var text = ""
+
 app.set('port', port);
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -17,13 +20,15 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'collabo.html'));
 });
 
+app.get('/saveas/:name', function(req, res) {
+    res.set({"Content-Disposition":"attachment; filename=" + req.params.name});
+    res.send(text);
+});
+
 // Starts the server.
 server.listen(port, '0.0.0.0', function() {
   console.log(`Starting server on port ${port}`);
 });
-
-var users = {}
-var text = ""
 
 // Add the WebSocket handlers
 io.sockets.on('connection', function(socket) {

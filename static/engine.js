@@ -7,11 +7,10 @@ socket.on('connect', function() {
         writeDOMLog(`a client is connected from ${ip}`, 'notify');
         app.getMessage();
     });
-});
-
-socket.on('sync', function(text) {
-    console.log(text);
-    app.message = text;
+    socket.on('sync', function(text) {
+        console.log(text);
+        app.message = text;
+    });
 });
 
 function writeDOMLog(data, mode) {
@@ -79,10 +78,24 @@ socket.on('update', function(data) {
     $('#realtimeFormControl').val(data);
 });
 
+Vue.component('editable', {
+    template:'<h3 contenteditable="true" @input="change"></h3>',
+    props:['content'],
+    mounted:function() {
+      this.$el.innerText = this.content;
+    },
+    methods:{
+      change:function(event) {
+        this.$emit('change', event.target.innerText);
+      }
+    }
+});
+
 let app = new Vue({
     el: '#app',
     data: {
-        message: ''
+        title: 'Yet another empty <code>/dev/stdout</code> page.',
+        message: '',
     },
     methods : {
         sendMessage: function(e) {
